@@ -1,0 +1,1 @@
+module.exports = { url : 'mongodb://anton:qwerty@ds111608.mlab.com:11608/comments'};
