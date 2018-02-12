@@ -5,7 +5,10 @@ body {
 
 a {
   color: #00B7FF;
+<<<<<<< HEAD
   display: table!important;
+=======
+>>>>>>> 662ba3abeee3b4aa453daeddcd9e98e04b4fc07f
 }
 #container{
   font-family:Calibri, Helvetica, serif;
