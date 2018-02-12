@@ -1,15 +1,37 @@
-require(['libs/jquery-3.3.1.min']);
-require(['libs/common']);
-require(['libs/moment']);
-require(['Models/Comment'], function(Comment){
+requirejs.config({
+    baseUrl: "/js/libs",
+    paths: {
+        jquery: 'jquery-3.3.1.min',
+        backbone: 'backbone',
+        moment: 'moment/moment',
+        underscore: 'underscore',
+        collections: '../Collections',
+        controllers: '../Controllers',
+        models: '../Models',
+        views: '../Views'
+    },
+    shim: {
+        'underscore': {
+            exports: '_'
+        },
+        'backbone': {
+            deps: ['underscore', 'jquery'],
+            exports: 'backbone'
+        }
 
-    var comments = [new Comment('Barney', 'asdasdasdasd'),
-        new Comment('Cartman', 'asdasdasdasd'),
-        new Comment('Sheldon', 'asdasdasdasd')];
+    },
+    packages: [{
+        name: 'moment',
+        location: 'moment',
+        main: 'moment'
+    }]
 
-    for (var i = 0, len = comments.length; i < len; i++){
-        console.log(comments[i].title + " - " + comments[i].comment);
-    }
 
-    localStorage.comments = JSON.stringify(comments);
 });
+
+require(['controllers/Comment'],
+    function (controllersComment) {
+
+        new controllersComment().start();
+
+    });

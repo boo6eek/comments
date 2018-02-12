@@ -2,59 +2,82 @@ var express = require('express');
 var router = express.Router();
 var moment = require('moment');
 var db = require('../config/db');
-
-var mongoose = require('mongoose');
-
-mongoose.connect(db.url);
-var db = mongoose.connection;
-var objectId = require('mongodb').ObjectId;
+var conform = require('conform');
 
 var title = 'Коментарии';
 
-var collection = db.collection('comments');
-
-
 router.get('/', function (req, res) {
-    collection.find().toArray(function (err, docs) {
+    res.render('index', {title: title});
+});
+
+
+router.get('/comments', function (req, res) {
+    db.comments().find().toArray(function (err, docs) {
         if (err)
             console.log(err);
-        moment.lang('ru');
+        moment.locale('ru');
 
 
         docs.forEach(function (mjs) {
             mjs.date = moment(mjs.date).startOf('second').fromNow();
         });
 
-        res.render('index', {title: title, comments: docs});
+        res.send(docs);
     })
 
 });
 
-router.post('/add', function (req, res) {
+router.post('/comments', function (req, res) {
+
     var comment = {
         date: moment().format(),
+        title: req.body.title,
         name: req.body.name,
-        text: req.body.comment
+        comment: req.body.comment
     };
 
-    collection.insert(comment, function (err, comments) {
-        if (err)
-            console.log(err);
-        console.log(comments);
+    var validate = conform.validate(comment, {
+        properties: {
+            title: {
+                pattern: /^[a-z|A-Z|а-я|А-Я|#|\-|0-9| |,|$|!|@|%|^|&|*|(|)|+|=|_]{3,}$/,
+            },
+            name: {
+                pattern: /^[a-z|A-Z|а-я|А-Я|#|\-|0-9| |,|$|!|@|%|^|&|*|(|)|+|=|_]{3,}$/,
+            },
+            comment: {
+                pattern: /^[a-z|A-Z|а-я|А-Я|#|\-|0-9| |,|$|!|@|%|^|&|*|(|)|+|=|_]{3,}$/,
+            }
+        }
     });
-    collection.find().toArray(function (err, comments) {
-        if (err)
-            console.log(err);
-        console.log(comments);
-        res.render('index', {title: title, comments: comments});
-    });
+
+    if (validate.valid) {
+        db.comments().insert(comment, function (err, comments) {
+            if (err)
+                console.log(err);
+        });
+        db.comments().find().limit(1).sort({$natural:-1}).toArray(function (err, docs) {
+            if (err)
+                console.log(err);
+            moment.locale('ru');
+
+            docs.forEach(function (mjs) {
+                mjs.date = moment(mjs.date).startOf('second').fromNow();
+            });
+
+            var data = {validate: validate.valid, docs: docs};
+            res.send(data);
+        });
+    } else {
+        res.send(validate);
+    }
+
 });
 
 router.get('/dropdb', function (req, res) {
-    collection.drop(function (err, docs) {
+    db.comments().drop(function (err, docs) {
         if (err) res.send(err);
     });
-    collection.find().toArray(function (err, comments) {
+    db.comments().find().toArray(function (err, comments) {
         if (err)
             console.log(err);
         console.log(comments);

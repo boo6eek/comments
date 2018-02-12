@@ -1,0 +1,43 @@
+doctype html
+html
+    head
+    meta(charset = 'utf-8')
+    meta(name='viewport', content="initial-scale=1.0, width=device-width")
+    link(rel='stylesheet',href='/css/style.css')
+    link(rel="stylesheet",href='/css/bootstrap.min.css')
+    script(src='/js/libs/require.js', data-main='/js/main.js')
+    title #{title}
+    body
+        script#comment-template(type='text/template')
+            div.col-sm-12
+                div.panel.panel-success
+                    div.panel-heading.text-uppercase
+                        <%= title %>
+                        span.pull-right.text-lowercase
+                            <%= date %>
+                    div.panel-body.text-uppercase
+                        <%= name %>
+                    div.panel-body
+
+        div.container
+            div.jumbotron
+                h1.text-muted.text-center.text-uppercase #{title}
+                a(href='/droupdb', class='btn btn-default center-block') Удалить коментарии
+
+        div.container
+            div.row
+                div#comments-list
+                div.col-sm-12
+                    form.form-horizontal#comment-form
+                        div.form-group
+                            div.col-sm-12
+                                input(type='text', class='form-control', placeholder='Заголовок', name='title',required)
+                        div.form-group
+                            div.col-sm-12
+                                input(type='text', class='form-control', placeholder='Имя', name='name',required)
+                        div.form-group
+                            div.col-sm-12
+                                textarea(type='comment', class='form-control', placeholder='Комментарий', name='comment',required)
+                        div.form-group
+                            div.col-sm-12
+                                input(type='submit', class='btn btn-default center-block')
