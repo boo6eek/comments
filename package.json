@@ -7,10 +7,7 @@
   },
   "dependencies": {
     "body-parser": "^1.18.2",
-<<<<<<< HEAD
     "conform": "^0.2.16",
-=======
->>>>>>> 662ba3abeee3b4aa453daeddcd9e98e04b4fc07f
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "ejs": "^2.5.7",
@@ -23,11 +20,8 @@
     "nodemon": "^1.14.11",
     "pug": "2.0.0-beta11",
     "serve-favicon": "~2.4.5"
-<<<<<<< HEAD
   },
   "devDependencies": {
     "gulp-jade": "^1.1.0"
-=======
->>>>>>> 662ba3abeee3b4aa453daeddcd9e98e04b4fc07f
   }
 }

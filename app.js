@@ -11,11 +11,7 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-<<<<<<< HEAD
 app.set('view engine', 'pug');
-=======
-app.set('view engine', 'ejs');
->>>>>>> 662ba3abeee3b4aa453daeddcd9e98e04b4fc07f
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -23,11 +19,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-<<<<<<< HEAD
 app.use(express.static(path.join(__dirname + '/public')));
-=======
-app.use(express.static(path.join(__dirname, 'public')));
->>>>>>> 662ba3abeee3b4aa453daeddcd9e98e04b4fc07f
 
 app.use('/', index);
 
@@ -35,11 +27,7 @@ app.use('/', index);
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
-<<<<<<< HEAD
   //next(err);
-=======
-  next(err);
->>>>>>> 662ba3abeee3b4aa453daeddcd9e98e04b4fc07f
 });
 
 // error handler
